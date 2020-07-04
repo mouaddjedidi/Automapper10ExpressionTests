@@ -8,22 +8,12 @@ using Xunit;
 
 namespace Automapper10ExpressionTests
 {
-    public class UserEntityDto : EntityDtoBase<UserEntityDto>
-    {
-        public string Name { get; set; }
-    }
-
-    public class UserPersistenceDto : PersistenceDtoBase<UserPersistenceDto>
-    {
-        public string Name { get; set; }
-    }
+    public class UserEntityDto : EntityDtoBase<UserEntityDto> { }
+    public class UserPersistenceDto : PersistenceDtoBase<UserPersistenceDto> { }
 
     public class UserProfile : Profile
     {
-        public UserProfile()
-        {
-            CreateMap<UserEntityDto, UserPersistenceDto>().ReverseMap();
-        }
+        public UserProfile() { CreateMap<UserEntityDto, UserPersistenceDto>().ReverseMap(); }
     }
 
     public class UnitTest
@@ -51,15 +41,11 @@ namespace Automapper10ExpressionTests
         }
 
         [Fact]
-        public void Should_Map()
+        public void Should_Map_Expression()
         {
-            var entityDto = new UserEntityDto { Id = 1, Name = "Jon snow" };
-            var peristenceDto = _mapper.Map<UserPersistenceDto>(entityDto);
-
             Expression<Func<UserEntityDto, bool>> searchExpression = u => u.Id == 1;
             var searchExpressionMapped = _mapper.Map<Expression<Func<UserPersistenceDto, bool>>>(searchExpression);
 
-            Assert.Equal(1, peristenceDto.Id);
             Assert.NotNull(searchExpressionMapped);
         }
     }
